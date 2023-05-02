@@ -72,20 +72,22 @@ public class TaskManager {
         return subTask;
     }
 
-    public void updateTask(Task task) {
+    public Task updateTask(Task task) {
         if (taskHashMap.containsKey(task.getId())) {
             taskHashMap.put(task.id, task);
         }
+        return task;
     }
 
-    public void updateEpicTask(EpicTask epicTask) {
+    public EpicTask updateEpicTask(EpicTask epicTask) {
         if (epicTaskHashMap.containsKey(epicTask.getId())){
             checkEpicTaskStatus(epicTask);
             epicTaskHashMap.put(epicTask.id, epicTask);
         }
+        return epicTask;
     }
 
-    public void updateSubTask(SubTask subTask) {
+    public SubTask updateSubTask(SubTask subTask) {
         if (subTaskHashMap.containsKey(subTask.getId()) &&
                 epicTaskHashMap.containsKey(subTask.getEpicId()) &&
                 epicTaskHashMap.get(subTask.getEpicId()).getEpicSubTasksHashMap().containsKey(subTask.getId())) {
@@ -93,6 +95,7 @@ public class TaskManager {
             epicTaskHashMap.get(subTask.getEpicId()).getEpicSubTasksHashMap().put(subTask.id, subTask);
             checkEpicTaskStatus(epicTaskHashMap.get(subTask.getEpicId()));
         }
+        return subTask;
     }
 
     public Task removeTaskById(int id) {
