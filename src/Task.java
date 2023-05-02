@@ -4,13 +4,23 @@ public class Task {
 
     protected String taskName;
     protected String taskDescription;
-    protected String status = "NEW";
+    protected String status;
     protected int id;
 
-    public Task(String taskName, String taskDescription) {
+    public Task(String taskName, String taskDescription, String status) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
+        this.status = status;
     }
+
+    public Task(String taskName, String taskDescription, String status, int id) {
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.status = status;
+        this.id = id;
+    }
+
+
 
     public String getTaskName() {
         return taskName;
@@ -33,10 +43,6 @@ public class Task {
     }
 
     public void setStatus(String status) {
-        switch (status) {
-            case ("NEW") : status = "IN_PROGRESS"; break;
-            case ("IN_PROGRESS") : status = "DONE"; break;
-        }
         this.status = status;
     }
 

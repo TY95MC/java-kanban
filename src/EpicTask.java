@@ -1,9 +1,16 @@
+import java.util.HashMap;
 import java.util.Objects;
 
 public class EpicTask extends Task{
 
-    public EpicTask(String taskName, String taskDescription) {
-        super(taskName, taskDescription);
+    private HashMap<Integer, SubTask> subTasksHashMap = new HashMap<>();
+    public EpicTask(String taskName, String taskDescription, String status) {
+        super(taskName, taskDescription, status);
+    }
+
+    public EpicTask(String taskName, String taskDescription, String status,int id, HashMap<Integer, SubTask> subTasksHashMap) {
+        super(taskName, taskDescription, status, id);
+        this.subTasksHashMap = subTasksHashMap;
     }
 
     @Override
@@ -61,10 +68,14 @@ public class EpicTask extends Task{
 
     @Override
     public void setStatus(String status) {
-        switch (status) {
-            case ("NEW") : status = "IN_PROGRESS"; break;
-            case ("IN_PROGRESS") : status = "DONE"; break;
-        }
         this.status = status;
+    }
+
+    public HashMap<Integer, SubTask> getEpicSubTasksHashMap() {
+        return subTasksHashMap;
+    }
+
+    public void setSubTaskHashMap(HashMap<Integer, SubTask> subTaskHashMap) {
+        this.subTasksHashMap = subTaskHashMap;
     }
 }

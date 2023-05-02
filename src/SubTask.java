@@ -1,11 +1,17 @@
 import java.util.Objects;
 
-public class SubTask extends EpicTask{
+public class SubTask extends Task{
 
-    private EpicTask epic;
+    private int epicId;
 
-    public SubTask(String taskName, String taskDescription) {
-        super(taskName, taskDescription);
+    public SubTask(String taskName, String taskDescription, String status, int epicId) {
+        super(taskName, taskDescription, status);
+        this.epicId = epicId;
+    }
+
+    public SubTask(String taskName, String taskDescription, String status, int id, int epicId) {
+        super(taskName, taskDescription, status, id);
+        this.epicId = epicId;
     }
 
     @Override
@@ -15,7 +21,7 @@ public class SubTask extends EpicTask{
         if (this.getClass() != obj.getClass()) return false;
         SubTask task = (SubTask) obj;
         return Objects.equals(taskName, task.taskName) && Objects.equals(taskDescription, task.taskDescription) &&
-                Objects.equals(epic, task.epic) && Objects.equals(status, task.status) && id == task.id;
+                Objects.equals(epicId, task.epicId) && Objects.equals(status, task.status) && id == task.id;
     }
 
     @Override
@@ -25,8 +31,8 @@ public class SubTask extends EpicTask{
                 ", taskDescription='" + taskDescription + '\'' +
                 ", status=" + status + '\'' +
                 ", id=" + id +
-                ", EpicTask='" + epic.taskName +
-                "'}\n";
+                ", EpicTaskId=" + epicId +
+                "}\n";
     }
 
     @Override
@@ -49,13 +55,6 @@ public class SubTask extends EpicTask{
         this.taskDescription = taskDescription;
     }
 
-    public EpicTask getEpic() {
-        return epic;
-    }
-
-    public void setEpic(EpicTask epic) {
-        this.epic = epic;
-    }
 
     public int getId() {
         return id;
@@ -72,10 +71,14 @@ public class SubTask extends EpicTask{
 
     @Override
     public void setStatus(String status) {
-        switch (status) {
-            case ("NEW") : status = "IN_PROGRESS"; break;
-            case ("IN_PROGRESS") : status = "DONE"; break;
-        }
         this.status = status;
+    }
+
+    public int getEpicId() {
+        return epicId;
+    }
+
+    public void setEpicId(int epicId) {
+        this.epicId = epicId;
     }
 }
