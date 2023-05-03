@@ -10,6 +10,7 @@ public class Main {
         System.out.println("Создание больших задач.");
         EpicTask epicTask1 = taskManager.createEpicTask(new EpicTask("first", "firstEpicTask", "NEW"));
         EpicTask epicTask2 = taskManager.createEpicTask(new EpicTask("second", "secondEpicTask", "NEW"));
+        System.out.println(taskManager.getAllEpicTask().toString());
 
         System.out.println("Создание подзадач.");
         SubTask subTask1 = taskManager.createSubTask(new SubTask("first", "firstSubTask", "NEW", epicTask1.getId()));

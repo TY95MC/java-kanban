@@ -1,16 +1,16 @@
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class EpicTask extends Task{
 
-    private HashMap<Integer, SubTask> subTasksHashMap = new HashMap<>();
+    public ArrayList<Integer> subId = new ArrayList<>();
+
     public EpicTask(String taskName, String taskDescription, String status) {
         super(taskName, taskDescription, status);
     }
 
-    public EpicTask(String taskName, String taskDescription, String status,int id, HashMap<Integer, SubTask> subTasksHashMap) {
+    public EpicTask(String taskName, String taskDescription, String status,int id) {
         super(taskName, taskDescription, status, id);
-        this.subTasksHashMap = subTasksHashMap;
     }
 
     @Override
@@ -30,7 +30,12 @@ public class EpicTask extends Task{
                 ", taskDescription='" + taskDescription + '\'' +
                 ", status=" + status + '\'' +
                 ", id=" + id +
+                ", subId=" + subId +
                 "}\n";
+    }
+
+    public ArrayList<Integer> getSubId() {
+        return subId;
     }
 
     @Override
@@ -69,13 +74,5 @@ public class EpicTask extends Task{
     @Override
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public HashMap<Integer, SubTask> getEpicSubTasksHashMap() {
-        return subTasksHashMap;
-    }
-
-    public void setSubTaskHashMap(HashMap<Integer, SubTask> subTaskHashMap) {
-        this.subTasksHashMap = subTaskHashMap;
     }
 }
