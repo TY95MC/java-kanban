@@ -5,11 +5,11 @@ public class EpicTask extends Task{
 
     public ArrayList<Integer> subId = new ArrayList<>();
 
-    public EpicTask(String taskName, String taskDescription, String status) {
+    public EpicTask(String taskName, String taskDescription, Status status) {
         super(taskName, taskDescription, status);
     }
 
-    public EpicTask(String taskName, String taskDescription, String status,int id) {
+    public EpicTask(String taskName, String taskDescription, Status status,int id) {
         super(taskName, taskDescription, status, id);
     }
 
@@ -28,7 +28,7 @@ public class EpicTask extends Task{
         return "{" +
                 "EpicTaskName='" + taskName + '\'' +
                 ", taskDescription='" + taskDescription + '\'' +
-                ", status=" + status + '\'' +
+                ", status='" + status + '\'' +
                 ", id=" + id +
                 ", subId=" + subId +
                 "}\n";
@@ -67,12 +67,12 @@ public class EpicTask extends Task{
     }
 
     @Override
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
     @Override
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 }

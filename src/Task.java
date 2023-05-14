@@ -4,16 +4,16 @@ public class Task {
 
     protected String taskName;
     protected String taskDescription;
-    protected String status;
+    protected Status status;
     protected int id;
 
-    public Task(String taskName, String taskDescription, String status) {
+    protected Task(String taskName, String taskDescription, Status status) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.status = status;
     }
 
-    public Task(String taskName, String taskDescription, String status, int id) {
+    protected Task(String taskName, String taskDescription, Status status, int id) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.status = status;
@@ -38,11 +38,11 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
