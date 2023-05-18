@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TaskManager {
 
-    Collection<Task> getTasks();
+    List<Task> getTasks();
     List<Subtask> getSubtasks();
     List<Epic> getEpics();
     void deleteTasks();

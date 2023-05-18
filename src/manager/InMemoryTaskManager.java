@@ -17,10 +17,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
     @Override
-    public /*Collection*/List<Task> getTasks() {
-        //Collections<Task> tasksCollection = new Collection<>(tasks.values());
-        //return Collections.unmodifiableList(tasks.values());
-        //return Collections.unmodifiableCollection(tasks.values());
+    public List<Task> getTasks() {
         return new ArrayList<>(tasks.values());
     }
 
