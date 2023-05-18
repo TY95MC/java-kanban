@@ -58,27 +58,27 @@ public class Main {
         System.out.println(taskManager2.getEpicSubtasks(epic2.getId()).toString());
 
         System.out.println("\nОбновление задачи. Проверка смены статуса.\n");
-        epic1.setTaskName("epic1UPD1");
-        epic2.setTaskName("epic2UPD1");
+        epic1.setName("epic1UPD1");
+        epic2.setName("epic2UPD1");
 
         taskManager1.updateEpic(epic1);
         taskManager2.updateEpic(epic2);
 
-        task1.setTaskName("Task1UPD1");
+        task1.setName("Task1UPD1");
         task1.setStatus(Status.IN_PROGRESS);
-        task2.setTaskName("Task2UPD1");
+        task2.setName("Task2UPD1");
         task2.setStatus(Status.IN_PROGRESS);
 
         taskManager1.updateTask(task1);
         taskManager2.updateTask(task2);
 
-        Subtask1.setTaskName("Subtask1UPD1");
+        Subtask1.setName("Subtask1UPD1");
         Subtask1.setStatus(Status.IN_PROGRESS);
-        Subtask2.setTaskName("Subtask2UPD1");
+        Subtask2.setName("Subtask2UPD1");
         Subtask2.setStatus(Status.IN_PROGRESS);
-        Subtask3.setTaskName("Subtask3UPD1");
+        Subtask3.setName("Subtask3UPD1");
         Subtask3.setStatus(Status.IN_PROGRESS);
-        Subtask4.setTaskName("Subtask4UPD1");
+        Subtask4.setName("Subtask4UPD1");
         Subtask4.setStatus(Status.IN_PROGRESS);
 
         taskManager1.updateSubtask(Subtask1);
@@ -98,17 +98,17 @@ public class Main {
         System.out.println(taskManager2.getEpicSubtasks(epic2.getId()).toString());
 
         System.out.println("\nВторое обновление задачи. Проверка смены статуса.\n");
-        task2.setTaskName("Task2UPD2");
+        task2.setName("Task2UPD2");
         task2.setStatus(Status.IN_PROGRESS);
         taskManager1.updateTask(task2);
 
-        Subtask1.setTaskName("Subtask1UPD2");
+        Subtask1.setName("Subtask1UPD2");
         Subtask1.setStatus(Status.DONE);
-        Subtask2.setTaskName("Subtask2UPD2");
+        Subtask2.setName("Subtask2UPD2");
         Subtask2.setStatus(Status.DONE);
-        Subtask3.setTaskName("Subtask3UPD2");
+        Subtask3.setName("Subtask3UPD2");
         Subtask3.setStatus(Status.DONE);
-        Subtask4.setTaskName("Subtask4UPD2");
+        Subtask4.setName("Subtask4UPD2");
         Subtask4.setStatus(Status.DONE);
         taskManager1.updateSubtask(Subtask1);
         taskManager1.updateSubtask(Subtask2);
@@ -132,9 +132,9 @@ public class Main {
         System.out.println(taskManager2.getSubtask(Subtask3.getId()).toString());
 
         System.out.println("\nУдаление задачи по ID.\n");
-        taskManager1.removeEpicTaskById(epic1.getId());
-        taskManager1.removeTaskById(task1.getId());
-        taskManager2.removeSubtaskById(Subtask4.getId());
+        taskManager1.deleteEpic(epic1.getId());
+        taskManager1.deleteTask (task1.getId());
+        taskManager2.deleteSubtask(Subtask4.getId());
 
         System.out.println("\nПолучение списков задач.\n");
         System.out.println(taskManager1.getTasks().toString());

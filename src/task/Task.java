@@ -7,6 +7,12 @@ public class Task {
     private Status status;
     private int id;
 
+    public Task(String name, String description, int id) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+    }
+
     public Task(String name, String description, Status status) {
         this.name = name;
         this.description = description;
@@ -26,11 +32,11 @@ public class Task {
     }
 
 
-    public String getTaskName() {
+    public String getName() {
         return name;
     }
 
-    public void setTaskName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
