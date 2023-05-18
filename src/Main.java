@@ -133,7 +133,7 @@ public class Main {
 
         System.out.println("\nУдаление задачи по ID.\n");
         taskManager1.deleteEpic(epic1.getId());
-        taskManager1.deleteTask (task1.getId());
+        taskManager1.deleteTask(task1.getId());
         taskManager2.deleteSubtask(Subtask4.getId());
 
         System.out.println("\nПолучение списков задач.\n");

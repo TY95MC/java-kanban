@@ -5,9 +5,7 @@ import task.Status;
 import task.Subtask;
 import task.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -19,7 +17,10 @@ public class InMemoryTaskManager implements TaskManager {
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
     @Override
-    public List<Task> getTasks() {
+    public /*Collection*/List<Task> getTasks() {
+        //Collections<Task> tasksCollection = new Collection<>(tasks.values());
+        //return Collections.unmodifiableList(tasks.values());
+        //return Collections.unmodifiableCollection(tasks.values());
         return new ArrayList<>(tasks.values());
     }
 
@@ -92,9 +93,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask addSubtask(Subtask subtask) {
         Epic epic = epics.get(subtask.getEpicId());
-        int subtaskId = subtask.getId();
         if (epic != null) {
             subtask.setId(generateId());
+            int subtaskId = subtask.getId();
             epic.getsubtaskIds().add(subtaskId);
             subtasks.put(subtaskId, subtask);
             checkEpicTaskStatus(epic);

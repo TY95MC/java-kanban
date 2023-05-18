@@ -4,11 +4,12 @@ import task.Epic;
 import task.Subtask;
 import task.Task;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface TaskManager {
 
-    List<Task> getTasks();
+    Collection<Task> getTasks();
     List<Subtask> getSubtasks();
     List<Epic> getEpics();
     void deleteTasks();
