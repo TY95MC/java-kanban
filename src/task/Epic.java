@@ -25,7 +25,7 @@ public class Epic extends Task {
                 "}\n";
     }
 
-    public ArrayList<Integer> getsubtaskIds () {
+    public ArrayList<Integer> getSubtaskIds() {
         return subtaskIds ;
     }
 
