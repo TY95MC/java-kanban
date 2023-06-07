@@ -34,7 +34,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         return Collections.unmodifiableList(tasksHistory.tasks);
     }
 
-    public class CustomLinkedList<T> extends LinkedList<T> {
+    public class CustomLinkedList<T> {
         public Node<T> head;
         public Node<T> tail;
         private int size = 0;
