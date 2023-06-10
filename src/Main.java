@@ -47,6 +47,12 @@ public class Main {
         System.out.println("\nПроверка работы менеджера истории. Шаг 3.\n");
         taskManager.deleteEpic(epic1.getId());
         System.out.println(taskManager.getHistory());
+
+        System.out.println("\nПроверка работы менеджера истории. Шаг 4.\n");
+        taskManager.getEpic(epic1.getId());
+        taskManager.deleteEpic(epic2.getId());
+        taskManager.getEpic(epic2.getId());
+        System.out.println(taskManager.getHistory());
     }
 
 }

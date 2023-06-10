@@ -192,9 +192,6 @@ public class InMemoryTaskManager implements TaskManager {
             for (Integer subtaskId : epic.getSubtaskIds()) {
                 Subtask subtask = idToSubtasks.get(subtaskId);
                 subs.add(subtask);
-                if (subtask != null) {
-                    historyManager.add(subtask);
-                }
             }
         }
         return subs;
