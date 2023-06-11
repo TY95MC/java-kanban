@@ -49,7 +49,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         private List<T> getTasks() {
             List<T> list = new ArrayList<>();
             Node<T> node = tail;
-            for (int i = getSize(); i > 0; i--) {
+            for (int i = size; i > 0; i--) {
                list.add(node.data);
                 node = node.prev;
             }
@@ -74,9 +74,6 @@ public class InMemoryHistoryManager implements HistoryManager {
             }
         }
 
-        private int getSize() {
-            return size;
-        }
     }
 
     private static class Node<T> {
