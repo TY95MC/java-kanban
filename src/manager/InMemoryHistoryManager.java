@@ -21,7 +21,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return Collections.unmodifiableList(tasksHistory.getTasks(tasksHistory.tail));
+        return Collections.unmodifiableList(tasksHistory.getTasks());
     }
 
     private static class CustomLinkedList<T> {
@@ -46,8 +46,9 @@ public class InMemoryHistoryManager implements HistoryManager {
             size++;
         }
 
-        private List<T> getTasks(Node<T> node) {
+        private List<T> getTasks() {
             List<T> list = new ArrayList<>();
+            Node<T> node = tail;
             for (int i = getSize(); i > 0; i--) {
                list.add(node.data);
                 node = node.prev;
