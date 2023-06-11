@@ -21,7 +21,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return Collections.unmodifiableList(tasksHistory.getTasks());
+        return Collections.unmodifiableList(tasksHistory.getTasks(tasksHistory.tail));
     }
 
     private static class CustomLinkedList<T> {
@@ -31,6 +31,9 @@ public class InMemoryHistoryManager implements HistoryManager {
         private final HashMap<Integer, Node<T>> idToNodes = new HashMap<>();
 
         private void linkLast(int id, Node<T> t) {
+            if (idToNodes.containsKey(id)) {
+                removeNode(id);
+            }
             final Node<T> n = tail;
             tail = t;
             if (n == null) {
@@ -40,15 +43,14 @@ public class InMemoryHistoryManager implements HistoryManager {
                 t.prev = n;
             }
             idToNodes.put(id, t);
-            if (!idToNodes.containsKey(id)) {
-                size++;
-            }
+            size++;
         }
 
-        private List<T> getTasks() {
+        private List<T> getTasks(Node<T> node) {
             List<T> list = new ArrayList<>();
-            for (Node<T> node : idToNodes.values()) {
-                list.add(node.data);
+            for (int i = getSize(); i > 0; i--) {
+               list.add(node.data);
+                node = node.prev;
             }
             return list;
         }
@@ -59,19 +61,19 @@ public class InMemoryHistoryManager implements HistoryManager {
                 if (node.prev != null) {
                     node.prev.next = node.next;
                 } else {
-                    node.next = null;
+                    head = node.next;
                 }
                 if (node.next != null) {
                     node.next.prev = node.prev;
                 } else {
-                    node.prev = null;
+                    tail = node.prev;
                 }
                 idToNodes.remove(id);
                 size--;
             }
         }
 
-        public int size() {
+        private int getSize() {
             return size;
         }
     }
