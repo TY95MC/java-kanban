@@ -27,7 +27,6 @@ public class InMemoryHistoryManager implements HistoryManager {
     private static class CustomLinkedList<T> {
         public Node<T> head;
         public Node<T> tail;
-        private int size = 0;
         private final HashMap<Integer, Node<T>> idToNodes = new HashMap<>();
 
         private void linkLast(int id, Node<T> t) {
@@ -43,15 +42,14 @@ public class InMemoryHistoryManager implements HistoryManager {
                 t.prev = n;
             }
             idToNodes.put(id, t);
-            size++;
         }
 
         private List<T> getTasks() {
             List<T> list = new ArrayList<>();
-            Node<T> node = tail;
-            for (int i = size; i > 0; i--) {
-               list.add(node.data);
-                node = node.prev;
+            Node<T> node = head;
+            while (node != null) {
+                list.add(node.data);
+                node = node.next;
             }
             return list;
         }
@@ -70,7 +68,6 @@ public class InMemoryHistoryManager implements HistoryManager {
                     tail = node.prev;
                 }
                 idToNodes.remove(id);
-                size--;
             }
         }
 
