@@ -11,11 +11,10 @@ public class Managers {
 
     public static TaskManager getDefault() {
         try {
-            File file = new File("C:\\Users\\xatop\\dev\\java-kanban\\java-kanban\\src\\memory\\data.csv");
-            return FileBackedTasksManager.loadFromFile(file);
+            File file = new File("C:/Users/xatop/dev/java-kanban/java-kanban/src/memory/data.csv");
+            return FileBackedTaskManager.loadFromFile(file);
         } catch (ManagerSaveException | IOException e){
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
 }
