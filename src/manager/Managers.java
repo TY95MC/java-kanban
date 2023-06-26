@@ -1,5 +1,8 @@
 package manager;
 
+import java.io.File;
+import java.io.IOException;
+
 public class Managers {
 
     public static HistoryManager getDefaultHistory() {
@@ -7,7 +10,12 @@ public class Managers {
     }
 
     public static TaskManager getDefault() {
-        return new InMemoryTaskManager();
+        try {
+            File file = new File("C:\\Users\\xatop\\dev\\java-kanban\\java-kanban\\src\\memory\\data.csv");
+            return FileBackedTasksManager.loadFromFile(file);
+        } catch (ManagerSaveException | IOException e){
+            e.printStackTrace();
+        }
+        return null;
     }
-
 }

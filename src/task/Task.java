@@ -6,6 +6,7 @@ public class Task {
     private String description;
     private Status status;
     private int id;
+    private final TaskType type = TaskType.TASK;
 
     public Task(String name, String description, int id) {
         this.name = name;
@@ -19,7 +20,7 @@ public class Task {
         this.status = status;
     }
 
-    protected Task(String name, String description, Status status, int id) {
+    public Task(String name, String description, Status status, int id) {
         this.name = name;
         this.description = description;
         this.status = status;
@@ -62,6 +63,10 @@ public class Task {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public TaskType getTaskType() {
+        return type;
     }
 
     @Override

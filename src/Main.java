@@ -1,3 +1,4 @@
+import manager.InMemoryTaskManager;
 import manager.Managers;
 import manager.TaskManager;
 import task.Epic;
@@ -9,15 +10,20 @@ public class Main {
     public static void main(String[] args) {
         TaskManager taskManager = Managers.getDefault();
 
-        Epic epic1 = taskManager.addEpic(new Epic("first", "firstEpicTask"));
-        Epic epic2 = taskManager.addEpic(new Epic("second", "secondEpicTask"));
+        Epic epic1 = new Epic("first", "firstEpicTask, testOfComaInDescription");
+        Epic epic2 = new Epic("second", "secondEpicTask");
+        taskManager.addEpic(epic1);
+        taskManager.addEpic(epic2);
 
-        Subtask subtask1 = taskManager.addSubtask(new Subtask("first", "firstSubtask",
-                Status.NEW, epic1.getId()));
-        Subtask subtask2 = taskManager.addSubtask(new Subtask("second", "secondSubtask",
-                Status.NEW, epic1.getId()));
-        Subtask subtask3 = taskManager.addSubtask(new Subtask("third", "thirdSubtask",
-                Status.NEW, epic1.getId()));
+        Subtask subtask1 = new Subtask("first", "firstSubtask",
+                Status.NEW, epic1.getId());
+        Subtask subtask2 = new Subtask("second", "secondSubtask",
+                Status.NEW, epic1.getId());
+        Subtask subtask3 = new Subtask("third", "thirdSubtask",
+                Status.NEW, epic1.getId());
+        taskManager.addSubtask(subtask1);
+        taskManager.addSubtask(subtask2);
+        taskManager.addSubtask(subtask3);
 
         System.out.println("\nПроверка работы менеджера истории. Шаг 1.\n");
 
