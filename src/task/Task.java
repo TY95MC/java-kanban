@@ -1,5 +1,9 @@
 package task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 public class Task {
 
     private String name;
@@ -7,6 +11,8 @@ public class Task {
     private Status status;
     private int id;
     private final TaskType type = TaskType.TASK;
+    private LocalDateTime startTime;
+    private Duration duration;
 
     public Task(String name, String description, int id) {
         this.name = name;
@@ -32,6 +38,14 @@ public class Task {
         this.description = description;
     }
 
+    public Task(String name, String description, Status status, int id, LocalDateTime startTime, Duration duration) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.id = id;
+        this.startTime = startTime;
+        this.duration = duration;
+    }
 
     public String getName() {
         return name;
@@ -69,6 +83,30 @@ public class Task {
         return type;
     }
 
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getEndTime() {
+        try {
+            return startTime.plus(duration);
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -79,4 +117,17 @@ public class Task {
                 "}\n"  ;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id && type.equals(task.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

@@ -1,5 +1,7 @@
 package task;
 
+import java.util.Objects;
+
 public class Subtask extends Task {
 
     private int epicId;
@@ -31,6 +33,15 @@ public class Subtask extends Task {
                 "}\n";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode());
+    }
 
     public int getEpicId() {
         return epicId;

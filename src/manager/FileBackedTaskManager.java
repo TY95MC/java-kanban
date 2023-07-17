@@ -1,6 +1,10 @@
 package manager;
 
-import task.*;
+import task.Task;
+import task.Epic;
+import task.Subtask;
+import task.TaskType;
+import task.Status;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,11 +12,18 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
     private final File file;
+    protected final DateTimeFormatter dataTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy|HH:mm");
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
     public FileBackedTaskManager(File file) {
         this.file = file;
@@ -79,7 +90,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     private void save() {
         try (Writer fw = new FileWriter(file.getPath(), StandardCharsets.UTF_8)) {
             List<String> list = new ArrayList<>();
-            final String COLUMNS = "id,type,name,status,description,epic";
+            final String COLUMNS = "id,type,name,status,description,startTime,duration,endTime,epic";
 
             list.add(COLUMNS);
             for (Integer id : idToTasks.keySet()) {
@@ -105,12 +116,25 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     private String taskToString(Task task) {
         String description = task.getDescription();
         description = description.replace(",", "`");
-        return String.join(",", String.valueOf(task.getId()), String.valueOf(task.getTaskType()),
-                task.getName(), String.valueOf(task.getStatus()), description);
+        String duration;
+        if (task.getDuration() != null) {
+            duration = LocalTime.of(0,0).plus(task.getDuration()).format(timeFormatter);
+        } else {
+            duration = LocalTime.of(0,0).format(timeFormatter);
+        }
+        try {
+            return String.join(",", String.valueOf(task.getId()), String.valueOf(task.getTaskType()),
+                    task.getName(), String.valueOf(task.getStatus()), description,
+                    task.getStartTime().format(dataTimeFormatter), duration,
+                    task.getEndTime().format(dataTimeFormatter));
+        } catch (NullPointerException e) {
+            return String.join(",", String.valueOf(task.getId()), String.valueOf(task.getTaskType()),
+                    task.getName(), String.valueOf(task.getStatus()), description, "null", "null", "null");
+        }
     }
 
     private String subtaskToString(Subtask subtask) {
-        return String.join(",", taskToString(subtask), String.valueOf(subtask.getEpicId()));
+        return taskToString(subtask) + "," + subtask.getEpicId();
     }
 
     private Task taskFromString(String line) {
@@ -118,33 +142,40 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         String name = tmp[2];
         String description = tmp[4];
         description = description.replace("`", ",");
-        Status status = null;
+        Status status = Status.valueOf(tmp[3]);
         int id = Integer.parseInt(tmp[0]);
-
-        switch (Status.valueOf(tmp[3])) {
-            case NEW:
-                status = Status.NEW;
-                break;
-            case IN_PROGRESS:
-                status = Status.IN_PROGRESS;
-                break;
-            case DONE:
-                status = Status.DONE;
-                break;
+        LocalDateTime startTime;
+        LocalDateTime endTime;
+        Duration duration;
+        try {
+            startTime = LocalDateTime.parse(tmp[5], dataTimeFormatter);
+            duration = Duration.between(LocalTime.parse(tmp[6], timeFormatter), startTime);
+            endTime = LocalDateTime.parse(tmp[5], dataTimeFormatter);
+        } catch (NullPointerException | DateTimeParseException e) {
+            startTime = null;
+            endTime = null;
+            duration = null;
         }
 
         switch (TaskType.valueOf(tmp[1])) {
             case TASK:
                 Task task = new Task(name, description, status, id);
+                task.setStartTime(startTime);
+                task.setDuration(duration);
                 idToTasks.put(id, task);
                 return task;
             case EPIC:
                 Epic epic = new Epic(name, description, status, id);
+                epic.setStartTime(startTime);
+                epic.setDuration(duration);
+                epic.setEndTime(endTime);
                 idToEpics.put(id, epic);
                 return epic;
             case SUBTASK:
-                int epicId = Integer.parseInt(tmp[5]);
+                int epicId = Integer.parseInt(tmp[8]);
                 Subtask subtask = new Subtask(name, description, status, id, epicId);
+                subtask.setStartTime(startTime);
+                subtask.setDuration(duration);
                 idToEpics.get(epicId).getSubtaskIds().add(id);
                 idToSubtasks.put(id, subtask);
                 return subtask;
