@@ -15,10 +15,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-class FileBackedTaskManagerTest extends TaskManagerTest {
+class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
-    File file = new File("C:/Users/xatop/dev/java-kanban/java-kanban/src/memory/data.csv");
-    File testFile = new File("C:/Users/xatop/dev/java-kanban/java-kanban/src/memory/dataTest.csv");
+    private final File file = new File("java-kanban/src/memory/data.csv");
+    private final File testFile = new File("java-kanban/src/memory/dataTest.csv");
 
     @BeforeEach
     void createManager() throws IOException {

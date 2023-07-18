@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 abstract class TaskManagerTest<T extends TaskManager> {
 
-    T manager;
+     protected T manager;
 
     @AfterEach
     public void afterEach(){
@@ -231,16 +231,21 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(1, manager.getHistory().size());
     }
 
-    @Test
-    void deleteHeadFromHistory() {
-        Task task = new Task("task", "description", 2);
-        Task task1 = new Task("task", "description", 3);
+
+    private void createEpicANdTasks() {
         manager.addEpic(new Epic("epic", "description"));
         manager.addTask(new Task("task", "description"));
         manager.addTask(new Task("task", "description"));
         manager.getEpic(1);
         manager.getTask(2);
         manager.getTask(3);
+    }
+
+    @Test
+    void deleteHeadFromHistory() {
+        Task task = new Task("task", "description", 2);
+        Task task1 = new Task("task", "description", 3);
+        createEpicANdTasks();
         manager.deleteEpic(1);
         List<Task> list= List.of(task, task1);
         assertEquals(list, manager.getHistory());
@@ -250,12 +255,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void deleteTailFromHistory() {
         Epic epic = new Epic("epic", "description", 1);
         Task task = new Task("task", "description", 2);
-        manager.addEpic(new Epic("epic", "description"));
-        manager.addTask(new Task("task", "description"));
-        manager.addTask(new Task("task", "description"));
-        manager.getEpic(1);
-        manager.getTask(2);
-        manager.getTask(3);
+        createEpicANdTasks();
         manager.deleteTask(3);
         List<Task> list= List.of(epic, task);
         assertEquals(list, manager.getHistory());
@@ -265,12 +265,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void deleteMiddleElementFromHistory() {
         Epic epic = new Epic("epic", "description", 1);
         Task task = new Task("task", "description", 3);
-        manager.addEpic(new Epic("epic", "description"));
-        manager.addTask(new Task("task", "description"));
-        manager.addTask(new Task("task", "description"));
-        manager.getEpic(1);
-        manager.getTask(2);
-        manager.getTask(3);
+        createEpicANdTasks();
         manager.deleteTask(2);
         List<Task> list= List.of(epic, task);
         assertEquals(list, manager.getHistory());
@@ -291,35 +286,33 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(manager.getEpic(1).getStatus(), Status.NEW);
     }
 
+    private void createEpicAndSubtask(Status status1, Status status2) {
+        manager.addEpic(new Epic("epic", "description"));
+        manager.addSubtask(new Subtask("subtask", "description", status1, 1));
+        manager.addSubtask(new Subtask("subtask", "description", status2, 1));
+    }
+
     @Test
     void checkEpicStatusWhenAllSubtasksHasStatusNew() {
-        manager.addEpic(new Epic("epic", "description"));
-        manager.addSubtask(new Subtask("subtask", "description", Status.NEW, 1));
-        manager.addSubtask(new Subtask("subtask", "description", Status.NEW, 1));
+        createEpicAndSubtask(Status.NEW, Status.NEW);
         assertEquals(manager.getEpic(1).getStatus(), Status.NEW);
     }
 
     @Test
     void checkEpicStatusWhenAllSubtasksHasStatusDone() {
-        manager.addEpic(new Epic("epic", "description"));
-        manager.addSubtask(new Subtask("subtask", "description", Status.DONE, 1));
-        manager.addSubtask(new Subtask("subtask", "description", Status.DONE, 1));
+        createEpicAndSubtask(Status.DONE, Status.DONE);
         assertEquals(manager.getEpic(1).getStatus(), Status.DONE);
     }
 
     @Test
     void checkEpicStatusWhenAllSubtasksHasStatusNewAndDone() {
-        manager.addEpic(new Epic("epic", "description"));
-        manager.addSubtask(new Subtask("subtask", "description", Status.NEW, 1));
-        manager.addSubtask(new Subtask("subtask", "description", Status.DONE, 1));
+        createEpicAndSubtask(Status.NEW, Status.DONE);
         assertEquals(manager.getEpic(1).getStatus(), Status.IN_PROGRESS);
     }
 
     @Test
     void checkEpicStatusWhenAllSubtasksHasStatusInProgress() {
-        manager.addEpic(new Epic("epic", "description"));
-        manager.addSubtask(new Subtask("subtask", "description", Status.IN_PROGRESS, 1));
-        manager.addSubtask(new Subtask("subtask", "description", Status.IN_PROGRESS, 1));
+        createEpicAndSubtask(Status.IN_PROGRESS, Status.IN_PROGRESS);
         assertEquals(manager.getEpic(1).getStatus(), Status.IN_PROGRESS);
     }
 }
