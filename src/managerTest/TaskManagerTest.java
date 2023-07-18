@@ -11,6 +11,7 @@ import task.Task;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -214,6 +215,59 @@ abstract class TaskManagerTest<T extends TaskManager> {
         manager.addEpic(new Epic("epic", "description"));
         manager.addSubtask(new Subtask("subtask", "description", Status.NEW, 1));
         assertEquals(1, manager.getEpic(1).getSubtaskIds().size());
+    }
+
+    @Test
+    void getEmptyHistory() {
+        assertTrue(manager.getHistory().isEmpty());
+    }
+
+    @Test
+    void checkNoCopiesInHistory() {
+        manager.addEpic(new Epic("epic", "description"));
+        manager.getEpic(1);
+        manager.getEpic(1);
+        manager.getEpic(1);
+        assertEquals(1, manager.getHistory().size());
+    }
+
+    private void createEpicANdTasks() {
+        manager.addEpic(new Epic("epic", "description"));
+        manager.addTask(new Task("task", "description", Status.NEW));
+        manager.addTask(new Task("task", "description", Status.NEW));
+        manager.getEpic(1);
+        manager.getTask(2);
+        manager.getTask(3);
+    }
+
+    @Test
+    void deleteHeadFromHistory() {
+        createEpicANdTasks();
+        manager.deleteEpic(1);
+        List<Task> list= List.of(
+                new Task("task", "description", Status.NEW, 2),
+                new Task("task", "description", Status.NEW, 3));
+        assertEquals(list, manager.getHistory());
+    }
+
+    @Test
+    void deleteTailFromHistory() {
+        createEpicANdTasks();
+        manager.deleteTask(3);
+        List<Task> list= List.of(
+                new Epic("epic", "description", 1),
+                new Task("task", "description", Status.NEW, 2));
+        assertEquals(list, manager.getHistory());
+    }
+
+    @Test
+    void deleteMiddleElementFromHistory() {
+        createEpicANdTasks();
+        manager.deleteTask(2);
+        List<Task> list= List.of(
+                new Epic("epic", "description", 1),
+                new Task("task", "description", Status.NEW, 3));
+        assertEquals(list, manager.getHistory());
     }
 
     @Test
